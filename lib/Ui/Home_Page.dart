@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './Menu_Page.dart';
 
 class homePage extends StatefulWidget {
   homePage({
@@ -11,6 +12,18 @@ class homePage extends StatefulWidget {
 }
 
 class homePageState extends State<homePage> {
+
+  int _count = 0;
+  var list = ['images/radar.png', 'images/menu.png', 'images/link.png'];
+
+
+
+  void _userImage() {
+    setState(() {
+      _count++;
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -31,14 +44,57 @@ class homePageState extends State<homePage> {
                     color: Colors.purple),
               ),
             )),
-//        title: new Text(
-//          'HereMe',
-//          textAlign: TextAlign.left,
-//          style: new TextStyle(
-//            color: Colors.purple,
-//            fontWeight: FontWeight.w700,
-//            fontSize: 35.0
-//          ),),
+      ),
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.purple,
+          onPressed: _userImage,
+          child: new Icon(
+              Icons.add,
+              color: Colors.white,),),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          new Expanded(
+              child: new CustomScrollView(
+                slivers: <Widget>[
+                  new SliverGrid(
+                    gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 80.0,
+                      mainAxisSpacing: 3.0,
+                      crossAxisSpacing: 3.0,
+                      childAspectRatio: 1.0,
+                    ),
+                    delegate: new SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                         for(index == 0; index < 10; index++ ) {
+                           return new Container(
+                             decoration: BoxDecoration(
+                                 borderRadius: BorderRadius.circular(10.0),
+                                 border: Border.all(color: Colors.blue)
+                             ),
+                             child: InkWell(
+                                 onTap: () {
+                                   Navigator.push(
+                                     context,
+                                     new MaterialPageRoute(
+                                         builder: (context) => new menuPage()),
+                                   );
+                                 },
+                                 child: new Image(
+                                     image: new AssetImage(list[index]))
+                             ),
+                           );
+                         }
+                      },
+                     childCount: _count,
+
+                    ),
+                  ),
+                ],
+              )
+            ),
+        ],
       ),
     );
   }
